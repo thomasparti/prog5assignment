@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+<changeSet id="20250112-1" author="prog5">
+    <createTable tableName="users">
+        <column name="id" type="bigserial">
+            <constraints primaryKey="true" />
+        </column>
+        <column name="username" type="VARCHAR(100)">
+            <constraints nullable="false" unique="true"/>
+        </column>
+        <column name="password" type="VARCHAR(100)">
+            <constraints nullable="false"/>
+        </column>
+    </createTable>
+</changeSet>
+
+<changeSet id="20250112-2" author="prog5">
+    <createTable tableName="role">
+        <column name="id" type="bigserial">
+            <constraints primaryKey="true"/>
+        </column>
+        <column name="rolename" type="VARCHAR(100)">
+            <constraints nullable="false" unique="true"/>
+        </column>
+    </createTable>
+</changeSet>
+
+<changeSet id="20250112-3" author="prog5">
+    <createTable tableName="user_role">
+        <column name="id" type="bigserial">
+            <constraints primaryKey="true" />
+        </column>
+        <column name="user_id" type="BIGINT">
+            <constraints nullable="false" foreignKeyName="fk_user_role_user_id"
+                         referencedTableName="users" referencedColumnNames="id"/>
+        </column>
+        <column name="role_id" type="BIGINT">
+            <constraints nullable="false" foreignKeyName="fk_user_role_role_id"
+                         referencedTableName="role" referencedColumnNames="id"/>
+        </column>
+    </createTable>
+</changeSet>
+
+<changeSet id="20250112-4" author="prog5">
+    <sql>
+        INSERT INTO users (username, password) VALUES
+                                                   ('user1', '$2a$10$prNhwDKXkPAzTHfHtShojeofzSswq1lsQHkNYG3ZeFIYlZi50P5B2'),
+                                                   ('user2', '$2a$10$prNhwDKXkPAzTHfHtShojeofzSswq1lsQHkNYG3ZeFIYlZi50P5B2'),
+                                                   ('user3', '$2a$10$prNhwDKXkPAzTHfHtShojeofzSswq1lsQHkNYG3ZeFIYlZi50P5B2');
+    </sql>
+</changeSet>
+
+<changeSet id="20250112-5" author="prog5">
+    <sql>
+        INSERT INTO role (rolename) VALUES ('USER');
+    </sql>
+</changeSet>
+
+<changeSet id="20250112-6" author="prog5">
+    <sql>
+        INSERT INTO user_role (user_id, role_id)
+        SELECT u.id, r.id
+        FROM users u, role r
+        WHERE r.rolename = 'USER'
+          AND u.username IN ('user1','user2','user3');
+    </sql>
+</changeSet>
+
+<changeSet id="20250112-7" author="prog5">
+    <createTable tableName="task">
+        <column name="id" type="bigserial">
+            <constraints primaryKey="true"/>
+        </column>
+        <column name="title" type="VARCHAR(255)">
+            <constraints nullable="false"/>
+        </column>
+        <column name="description" type="TEXT"/>
+        <column name="owner_id" type="BIGINT">
+            <constraints nullable="false" foreignKeyName="fk_task_owner"
+                         referencedTableName="users" referencedColumnNames="id"/>
+        </column>
+    </createTable>
+</changeSet>
+
+<changeSet id="20250112-8" author="prog5">
+    <sql>
+        -- Tasks for user1
+        INSERT INTO task(title, description, owner_id)
+        SELECT 'User1 Task 1', 'First example task for user1.', id FROM users WHERE username = 'user1';
+
+        INSERT INTO task(title, description, owner_id)
+        SELECT 'User1 Task 2', 'Second example task for user1.', id FROM users WHERE username = 'user1';
+
+        INSERT INTO task(title, description, owner_id)
+        SELECT 'User1 Task 3', 'Third example task for user1.', id FROM users WHERE username = 'user1';
+    </sql>
+</changeSet>
+
+<changeSet id="20250112-9" author="prog5">
+    <sql>
+        -- Tasks for user2
+        INSERT INTO task(title, description, owner_id)
+        SELECT 'User2 Task 1', 'First example task for user2.', id FROM users WHERE username = 'user2';
+
+        INSERT INTO task(title, description, owner_id)
+        SELECT 'User2 Task 2', 'Second example task for user2.', id FROM users WHERE username = 'user2';
+
+        INSERT INTO task(title, description, owner_id)
+        SELECT 'User2 Task 3', 'Third example task for user2.', id FROM users WHERE username = 'user2';
+    </sql>
+</changeSet>
+
+<changeSet id="20250112-10" author="prog5">
+    <sql>
+        -- Tasks for user3
+        INSERT INTO task(title, description, owner_id)
+        SELECT 'User3 Task 1', 'First example task for user3.', id FROM users WHERE username = 'user3';
+
+        INSERT INTO task(title, description, owner_id)
+        SELECT 'User3 Task 2', 'Second example task for user3.', id FROM users WHERE username = 'user3';
+
+        INSERT INTO task(title, description, owner_id)
+        SELECT 'User3 Task 3', 'Third example task for user3.', id FROM users WHERE username = 'user3';
+    </sql>
+</changeSet>
+
+</databaseChangeLog>

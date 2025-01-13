@@ -1,0 +1,19 @@
+package school.prog5assignment.service.mapping;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+public interface DtoMapper<E, D> {
+
+    D toDto(E entity);
+
+    default List<D> toDto(List<E> entities) {
+        if (entities == null) {
+            return List.of();
+        }
+
+        return entities.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+}
