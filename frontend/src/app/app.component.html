@@ -1,0 +1,14 @@
+<ng-container *ngIf="isLoggedIn$ | async">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row class="menu">
+      <a routerLink="/tasks" class="nav-btn">List Tasks</a>
+      <a routerLink="/create-task" class="nav-btn">Create Task</a>
+      <a routerLink="/search-task" class="nav-btn">Search Tasks</a>
+      <button (click)="logout()" class="nav-btn">Logout</button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</ng-container>
+
+<main>
+  <router-outlet></router-outlet>
+</main>

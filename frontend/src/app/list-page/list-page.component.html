@@ -1,0 +1,17 @@
+<div class="task-grid-container">
+  <h2>Your Tasks</h2>
+  <div class="grid">
+    <ng-container *ngIf="tasks$ | async as tasks">
+      <div *ngFor="let task of tasks || []" class="card">
+        <div class="card-content">
+          <h3 class="task-title">{{ task.title }}</h3>
+          <p class="task-description">{{ task.description }}</p>
+        </div>
+        <div class="card-actions">
+        <button class="edit-btn" (click)="editTask(task.id!)">Edit</button>
+        <button class="delete-btn" (click)="deleteTask(task.id!)">Delete</button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

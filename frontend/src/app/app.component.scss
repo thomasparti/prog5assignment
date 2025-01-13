@@ -1,0 +1,22 @@
+.nav-btn {
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin: 0 0.5rem;
+  cursor: pointer;
+  display: inline-block;
+
+  &:hover {
+    background-color: #1565c0;
+  }
+}
+
+.mat-toolbar-row.menu {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}

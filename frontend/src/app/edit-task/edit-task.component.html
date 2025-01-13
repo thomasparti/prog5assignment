@@ -1,0 +1,26 @@
+<mat-card>
+  <h2>Edit Task</h2>
+  <form (ngSubmit)="onSubmit()" #editTaskForm="ngForm">
+    <div>
+      <label for="title">Title:</label>
+      <input
+        id="title"
+        name="title"
+        type="text"
+        [(ngModel)]="title"
+        required
+      />
+    </div>
+    <div>
+      <label for="description">Description:</label>
+      <textarea
+        id="description"
+        name="description"
+        [(ngModel)]="description"
+        rows="3"
+      ></textarea>
+    </div>
+    <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <button type="submit" [disabled]="editTaskForm.invalid">Save Changes</button>
+  </form>
+</mat-card>

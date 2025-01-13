@@ -1,0 +1,42 @@
+<mat-card>
+  <h2>Search Tasks</h2>
+  <form (ngSubmit)="onSearch()" #searchForm="ngForm" class="search-form">
+    <div class="form-row">
+      <label for="search">Search:</label>
+      <input
+        id="search"
+        name="search"
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Enter search query..."
+      />
+    </div>
+    <div class="button-row">
+      <button type="submit">Search</button>
+      <button type="button" (click)="goToList()">Show All Tasks</button>
+    </div>
+  </form>
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="searched" class="grid">
+    <ng-container *ngIf="tasks$ | async as tasks">
+      <ng-container *ngIf="tasks.length > 0; else noResults">
+        <div *ngFor="let task of tasks" class="card">
+          <div class="card-content">
+            <h3 class="task-title">{{ task.title }}</h3>
+            <p class="task-description">{{ task.description }}</p>
+          </div>
+          <div class="card-actions">
+            <button class="edit-btn" (click)="editTask(task.id!)">Edit</button>
+            <button class="delete-btn" (click)="deleteTask(task.id!)">Delete</button>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #noResults>
+        <div class="no-results">No tasks found.</div>
+      </ng-template>
+    </ng-container>
+  </div>
+</mat-card>
